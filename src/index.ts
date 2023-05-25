@@ -1,0 +1,22 @@
+import type { NestExpressApplication } from "@nestjs/platform-express";
+
+import "reflect-metadata";
+import { NestFactory } from "@nestjs/core";
+import {
+    Logger,
+    ValidationPipe,
+} from "@nestjs/common";
+
+import { AppModule } from "./app.module";
+
+NestFactory.create<NestExpressApplication>(AppModule)
+    .then(async (app) => {
+        app.disable('x-powered-by');
+        app.useGlobalPipes(new ValidationPipe());
+
+        return app.listen(3000);
+    })
+    .then((server) => {
+        Logger.log('Customer API is ready and running');
+        Logger.log(JSON.stringify(server.address()));
+    });
