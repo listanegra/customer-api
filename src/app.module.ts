@@ -7,6 +7,7 @@ import {
 import { StatusController } from "./controller/status.controller";
 import { SSOMiddleWare } from "./middleware/sso.middleware";
 import { KeycloakProvider } from "./provider/keycloak.provider";
+import { RedisProvider } from "./provider/redis.provider";
 
 @Module({
     imports: [],
@@ -15,6 +16,7 @@ import { KeycloakProvider } from "./provider/keycloak.provider";
     ],
     providers: [
         KeycloakProvider,
+        RedisProvider,
     ],
 })
 export class AppModule implements NestModule {
