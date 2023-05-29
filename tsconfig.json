@@ -4,14 +4,6 @@
         "module": "CommonJS",
         "moduleResolution": "Node",
         "baseUrl": "./src/",
-        "paths": {
-            "@/*": [
-                "./*"
-            ],
-            "@/tests/*": [
-                "../tests/*"
-            ]
-        },
         "sourceMap": true,
         "outDir": "build",
         "newLine": "lf",
