@@ -1,6 +1,8 @@
 import type { NestExpressApplication } from "@nestjs/platform-express";
 
+import "dotenv/config";
 import "reflect-metadata";
+
 import { NestFactory } from "@nestjs/core";
 import {
     Logger,
