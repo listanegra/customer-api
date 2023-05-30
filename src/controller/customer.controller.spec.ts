@@ -119,4 +119,15 @@ describe('Customers controller test', () => {
         expect(controller.update('c48b0b7e-104f-4a1f-afb6-7a7054394bee', customer))
             .rejects.toThrow(NotFoundException);
     });
+    it('Should throw error on update promise catch', async () => {
+        const module = await getModule();
+        const controller = module.get(CustomerController);
+        const redis = module.get(RedisMock);
+
+        // @ts-expect-error
+        jest.spyOn(redis, 'hgetall').mockImplementation((_key, callback) => callback(new Error(), undefined));
+
+        expect(controller.update('throw me', <Customer>{}))
+            .rejects.toThrow(Error);
+    });
 });
