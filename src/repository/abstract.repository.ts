@@ -10,7 +10,7 @@ export class RepositoryKeyAlreadyExistsError extends Error { }
 
 export abstract class AbstractRepository<T> {
 
-    protected abstract prefix: string;
+    protected abstract readonly prefix: string;
 
     constructor(
         @Inject(Redis)
