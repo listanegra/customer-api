@@ -4,12 +4,12 @@ import {
     NestModule,
 } from "@nestjs/common";
 
-import { CustomerController } from "./controller/customer.controller";
-import { StatusController } from "./controller/status.controller";
-import { SSOMiddleWare } from "./middleware/sso.middleware";
-import { KeycloakProvider } from "./provider/keycloak.provider";
-import { RedisProvider } from "./provider/redis.provider";
-import { CustomerRepository } from "./repository/customer.repository";
+import { CustomerController } from "../controller/customer.controller";
+import { StatusController } from "../controller/status.controller";
+import { SSOMiddleWare } from "../middleware/sso.middleware";
+import { KeycloakProvider } from "../provider/keycloak.provider";
+import { RedisProvider } from "../provider/redis.provider";
+import { CustomerRepository } from "../repository/customer.repository";
 
 @Module({
     imports: [],
@@ -23,7 +23,7 @@ import { CustomerRepository } from "./repository/customer.repository";
         RedisProvider,
     ],
 })
-export class AppModule implements NestModule {
+export class MainModule implements NestModule {
 
     configure(consumer: MiddlewareConsumer) {
         consumer.apply(SSOMiddleWare)

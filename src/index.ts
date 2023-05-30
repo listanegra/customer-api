@@ -9,9 +9,9 @@ import {
     ValidationPipe,
 } from "@nestjs/common";
 
-import { AppModule } from "./app.module";
+import { MainModule } from "./module/main.module";
 
-NestFactory.create<NestExpressApplication>(AppModule)
+NestFactory.create<NestExpressApplication>(MainModule)
     .then(async (app) => {
         app.disable('x-powered-by');
         app.useGlobalPipes(new ValidationPipe());
