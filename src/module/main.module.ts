@@ -1,25 +1,29 @@
 import {
+    Global,
     MiddlewareConsumer,
     Module,
     NestModule,
 } from "@nestjs/common";
 
-import { CustomerController } from "../controller/customer.controller";
 import { StatusController } from "../controller/status.controller";
 import { SSOMiddleWare } from "../middleware/sso.middleware";
+import { CustomerModule } from "../module/customer.module";
 import { KeycloakProvider } from "../provider/keycloak.provider";
 import { RedisProvider } from "../provider/redis.provider";
-import { CustomerRepository } from "../repository/customer.repository";
 
+@Global()
 @Module({
-    imports: [],
+    imports: [
+        CustomerModule,
+    ],
     controllers: [
-        CustomerController,
         StatusController,
     ],
     providers: [
-        CustomerRepository,
         KeycloakProvider,
+        RedisProvider,
+    ],
+    exports: [
         RedisProvider,
     ],
 })
