@@ -13,8 +13,6 @@ export const RedisProvider: FactoryProvider<Redis> = {
         const {
             hostname,
             port,
-            username,
-            password,
         } = REDIS_URL;
 
         const options: RedisOptions = {
@@ -22,10 +20,6 @@ export const RedisProvider: FactoryProvider<Redis> = {
             host: hostname,
             port: +port,
         };
-
-        if (username && password) {
-            Object.assign(options, { username, password });
-        }
 
         const redis = new Redis(options);
         await redis.connect();
