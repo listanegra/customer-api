@@ -1,10 +1,10 @@
 import {
     Body,
+    ConflictException,
     Controller,
     Get,
-    HttpException,
-    HttpStatus,
     Inject,
+    NotFoundException,
     Param,
     Post,
     Put,
@@ -14,10 +14,10 @@ import { Customer } from "../model/customer.model";
 import { RepositoryKeyAlreadyExistsError } from "../repository/abstract.repository";
 import { CustomerRepository } from "../repository/customer.repository";
 
-class CustomerNotFoundError extends HttpException {
+class CustomerNotFoundError extends NotFoundException {
 
     constructor() {
-        super('Cliente não encontrado', HttpStatus.NOT_FOUND);
+        super('Cliente não encontrado');
     }
 
 }
@@ -61,7 +61,7 @@ export class CustomerController {
         const data = await this.repository.update(id, customer)
             .catch(error => {
                 if (error instanceof RepositoryKeyAlreadyExistsError) {
-                    throw new HttpException('Cliente já existe', HttpStatus.CONFLICT);
+                    throw new ConflictException('Cliente já existe');
                 }
 
                 throw error;

@@ -5,18 +5,17 @@ import type {
 } from "express";
 
 import {
-    HttpException,
-    HttpStatus,
     Inject,
     NestMiddleware,
+    UnauthorizedException,
 } from "@nestjs/common";
 
 import { KeycloakService } from "../service/keycloak.service";
 
-class AuthenticationError extends HttpException {
+class AuthenticationError extends UnauthorizedException {
 
     constructor() {
-        super('Unauthorized', HttpStatus.UNAUTHORIZED);
+        super('Unauthorized');
     }
 
 }
