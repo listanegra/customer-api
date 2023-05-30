@@ -1,3 +1,4 @@
+import { ConfigModule } from '@nestjs/config';
 import {
     Global,
     MiddlewareConsumer,
@@ -14,6 +15,7 @@ import { RedisProvider } from "../provider/redis.provider";
 @Global()
 @Module({
     imports: [
+        ConfigModule.forRoot(),
         CustomerModule,
     ],
     controllers: [

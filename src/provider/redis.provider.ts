@@ -1,13 +1,15 @@
 import type { FactoryProvider } from "@nestjs/common";
 
+import { ConfigService } from "@nestjs/config";
 import Redis, { RedisOptions } from "ioredis";
-
-const REDIS_URI = process.env['REDIS_URI'] || 'redis://localhost:6379';
-const REDIS_URL = new URL(REDIS_URI);
 
 export const RedisProvider: FactoryProvider<Redis> = {
     provide: Redis,
-    useFactory: async () => {
+    inject: [ConfigService],
+    useFactory: async (config: ConfigService) => {
+        const REDIS_URI = config.get<string>('REDIS_URI', 'redis://localhost:6379');
+        const REDIS_URL = new URL(REDIS_URI);
+
         const {
             hostname,
             port,
