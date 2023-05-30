@@ -11,7 +11,7 @@ import {
     NestMiddleware,
 } from "@nestjs/common";
 
-import { Keycloak } from "../model/keycloak.model";
+import { KeycloakService } from "../service/keycloak.service";
 
 class AuthenticationError extends HttpException {
 
@@ -24,8 +24,8 @@ class AuthenticationError extends HttpException {
 export class SSOMiddleWare implements NestMiddleware<Request, Response> {
 
     constructor(
-        @Inject(Keycloak)
-        private readonly keycloak: Keycloak,
+        @Inject(KeycloakService)
+        private readonly keycloak: KeycloakService,
     ) { }
 
     public async use(req: Request, _res: Response, next: NextFunction): Promise<void> {

@@ -1,7 +1,7 @@
 import { Logger } from "@nestjs/common";
 import { JWK, JWS } from "node-jose";
 
-export class Keycloak {
+export class KeycloakService {
 
     private readonly verifier: JWS.Verifier;
 
@@ -35,7 +35,7 @@ export class Keycloak {
             return clientId === this.clientId;
         } catch (error) {
             if (error instanceof Error) {
-                Logger.error(error, error.stack, Keycloak.name);
+                Logger.error(error, error.stack, KeycloakService.name);
             }
         }
 

@@ -4,7 +4,7 @@ import axios from "axios";
 import { JWK } from "node-jose";
 
 import { getEnvironmentVariables } from "../helper/getEnvironmentVariables.helper";
-import { Keycloak } from "../model/keycloak.model";
+import { KeycloakService } from "../service/keycloak.service";
 
 const {
     KEYCLOAK_ENDPOINT,
@@ -23,14 +23,14 @@ const http = axios.create({
     validateStatus: () => true,
 });
 
-export const KeycloakProvider: FactoryProvider<Keycloak> = {
-    provide: Keycloak,
+export const KeycloakProvider: FactoryProvider<KeycloakService> = {
+    provide: KeycloakService,
     useFactory: async () => {
         const response = await http.get('/protocol/openid-connect/certs');
 
         if (response.status === 200) {
             const keystore = await JWK.asKeyStore(response.data);
-            return new Keycloak(keystore, KEYCLOAK_BASE_URL, KEYCLOAK_CLIENT_ID!);
+            return new KeycloakService(keystore, KEYCLOAK_BASE_URL, KEYCLOAK_CLIENT_ID!);
         }
 
         throw new Error(`Error fetching keystore from '${KEYCLOAK_ENDPOINT}'`);
