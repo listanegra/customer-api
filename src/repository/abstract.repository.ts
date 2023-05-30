@@ -4,7 +4,7 @@ import { Inject } from "@nestjs/common";
 import Redis from "ioredis";
 import JSONCache from "redis-json";
 
-type IndexedModel<T> = { id: string } & T;
+export type IndexedModel<T> = { id: string } & T;
 
 export class RepositoryKeyAlreadyExistsError extends Error { }
 
