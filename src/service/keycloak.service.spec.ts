@@ -5,11 +5,6 @@ import { KeycloakService } from "./keycloak.service";
 const KEYCLOAK_ISSUER = 'http://localhost:8080/keycloak';
 const KEYCLOAK_CLIENT_ID = 'localhost';
 
-type Signature = {
-    payload: string;
-    signatures: [{ protected: string, signature: string }];
-};
-
 const createJWT = async (key: JWK.Key, payload: Record<string, unknown>) => {
     if (!payload['exp']) {
         // Expires in 5 minutes
@@ -17,16 +12,11 @@ const createJWT = async (key: JWK.Key, payload: Record<string, unknown>) => {
         Object.assign(payload, { exp });
     }
 
-    // @ts-expect-error
-    const signature: Signature = await JWS.createSign(key)
+    const signature = await JWS.createSign({ format: 'compact' }, key)
         .update(JSON.stringify(payload))
         .final();
 
-    return [
-        signature.signatures[0].protected,
-        signature.payload,
-        signature.signatures[0].signature,
-    ].join('.');
+    return String(signature);
 };
 
 describe('Keycloak validation service test', () => {
