@@ -4,7 +4,7 @@ const config: Config = {
     preset: 'ts-jest',
     setupFiles: ["<rootDir>/jest.setup.ts"],
     collectCoverage: true,
-    collectCoverageFrom: ['src/**/*.ts', '!src/**/*.spec.ts'],
+    collectCoverageFrom: ['src/**/*.ts', '!src/**/*.spec.ts', '!src/index.ts'],
     coverageDirectory: 'coverage',
     coverageProvider: 'v8',
     coverageReporters: ['text-summary', 'lcov'],
