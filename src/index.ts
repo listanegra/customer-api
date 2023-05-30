@@ -13,7 +13,7 @@ import { MainModule } from "./module/main.module";
 NestFactory.create<NestExpressApplication>(MainModule)
     .then(async (app) => {
         app.disable('x-powered-by');
-        app.useGlobalPipes(new ValidationPipe());
+        app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
         return app.listen(3000);
     })
