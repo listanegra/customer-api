@@ -1,4 +1,4 @@
-import type { FactoryProvider } from "@nestjs/common";
+import { FactoryProvider, Logger } from "@nestjs/common";
 
 import axios from "axios";
 import { ConfigService } from "@nestjs/config";
@@ -18,10 +18,13 @@ export const KeycloakProvider: FactoryProvider<KeycloakService> = {
 
         const http = axios.create({
             baseURL: KEYCLOAK_BASE_URL,
-            validateStatus: () => true,
         });
 
-        const response = await http.get('/protocol/openid-connect/certs');
+        const response = await http.get('/protocol/openid-connect/certs')
+            .catch((error: Error) => {
+                Logger.error(error, error.stack, 'KeycloakProvider');
+                return { status: 400, data: null };
+            });
 
         if (response.status === 200) {
             const keystore = await JWK.asKeyStore(response.data);
