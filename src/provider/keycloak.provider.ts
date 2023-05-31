@@ -14,11 +14,12 @@ export const KeycloakProvider: FactoryProvider<KeycloakService> = {
         const KEYCLOAK_CLIENT_ID = config.getOrThrow<string>('KEYCLOAK_CLIENT_ID');
         const KEYCLOAK_REALM = config.getOrThrow<string>('KEYCLOAK_REALM');
 
-        const KEYCLOAK_BASE_URL = `${KEYCLOAK_ENDPOINT}/auth/realms/${KEYCLOAK_REALM}`;
+        const keyCloakURL = new URL(KEYCLOAK_ENDPOINT);
+        keyCloakURL.pathname = `/auth/realms/${KEYCLOAK_REALM}`;
+        keyCloakURL.search = '';
 
-        const http = axios.create({
-            baseURL: KEYCLOAK_BASE_URL,
-        });
+        const baseURL = keyCloakURL.toString();
+        const http = axios.create({ baseURL });
 
         const response = await http.get('/protocol/openid-connect/certs')
             .catch((error: Error) => {
@@ -28,7 +29,7 @@ export const KeycloakProvider: FactoryProvider<KeycloakService> = {
 
         if (response.status === 200) {
             const keystore = await JWK.asKeyStore(response.data);
-            return new KeycloakService(keystore, KEYCLOAK_BASE_URL, KEYCLOAK_CLIENT_ID!);
+            return new KeycloakService(keystore, baseURL, KEYCLOAK_CLIENT_ID);
         }
 
         throw new Error(`Error fetching keystore from '${KEYCLOAK_ENDPOINT}'`);
